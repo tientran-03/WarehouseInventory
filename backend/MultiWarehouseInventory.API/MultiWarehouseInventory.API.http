@@ -1,0 +1,124 @@
+@MultiWarehouseInventory.API_HostAddress = http://localhost:5000
+@tenantId = {{createTenant.response.body.id}}
+@categoryId = {{createCategory.response.body.id}}
+@productId = {{createProduct.response.body.id}}
+@warehouseId = {{createWarehouse.response.body.id}}
+
+### Login (admin)
+# @name login
+POST {{MultiWarehouseInventory.API_HostAddress}}/api/auth/login
+Content-Type: application/json
+
+{
+  "userName": "admin",
+  "password": "Admin@123"
+}
+
+### Tạo tenant
+# @name createTenant
+POST {{MultiWarehouseInventory.API_HostAddress}}/api/tenants
+Content-Type: application/json
+
+{
+  "name": "Công ty ABC",
+  "code": "ABC"
+}
+
+### Tạo kho
+# @name createWarehouse
+POST {{MultiWarehouseInventory.API_HostAddress}}/api/warehouses
+Content-Type: application/json
+
+{
+  "tenantId": "{{tenantId}}",
+  "name": "Kho Hà Nội",
+  "code": "WH-HN",
+  "address": "12 Hoàn Kiếm, Hà Nội",
+  "latitude": 21.0285,
+  "longitude": 105.8542
+}
+
+### Tạo danh mục
+# @name createCategory
+POST {{MultiWarehouseInventory.API_HostAddress}}/api/categories
+Content-Type: application/json
+
+{
+  "tenantId": "{{tenantId}}",
+  "name": "Điện tử"
+}
+
+### Tạo sản phẩm
+# @name createProduct
+POST {{MultiWarehouseInventory.API_HostAddress}}/api/products
+Content-Type: application/json
+
+{
+  "tenantId": "{{tenantId}}",
+  "categoryId": "{{categoryId}}",
+  "sku": "LAPTOP-001",
+  "name": "Laptop Pro 15",
+  "price": 18500000
+}
+
+### Cập nhật tồn kho
+POST {{MultiWarehouseInventory.API_HostAddress}}/api/inventory
+Content-Type: application/json
+
+{
+  "tenantId": "{{tenantId}}",
+  "warehouseId": "{{warehouseId}}",
+  "productId": "{{productId}}",
+  "onHandStock": 10,
+  "reorderLevel": 3
+}
+
+### Danh sách đơn hàng
+GET {{MultiWarehouseInventory.API_HostAddress}}/api/orders?tenantId={{tenantId}}
+
+### Tạo đơn hàng (UI / API)
+POST {{MultiWarehouseInventory.API_HostAddress}}/api/orders
+Content-Type: application/json
+
+{
+  "tenantId": "{{tenantId}}",
+  "orderCode": "ORD-001",
+  "channel": "Web",
+  "customerName": "Nguyễn Văn A",
+  "customerPhone": "0901234567",
+  "customerAddress": "12 Hoàn Kiếm, Hà Nội",
+  "customerLatitude": 21.0285,
+  "customerLongitude": 105.8542,
+  "shippingFee": 25000,
+  "orderItems": [
+    {
+      "productId": "{{productId}}",
+      "quantity": 2,
+      "unitPrice": 18500000
+    }
+  ]
+}
+
+### Webhook đơn hàng
+POST {{MultiWarehouseInventory.API_HostAddress}}/api/orders/webhook
+Content-Type: application/json
+X-Webhook-Source: shopee
+
+{
+  "tenantId": "{{tenantId}}",
+  "orderCode": "SPX-001",
+  "channel": "Shopee",
+  "customerName": "Trần Thị B",
+  "customerPhone": "0912345678",
+  "customerAddress": "88 Nguyễn Huệ, Quận 1, TP.HCM",
+  "customerLatitude": 10.8231,
+  "customerLongitude": 106.6297,
+  "shippingFee": 30000,
+  "orderItems": [
+    {
+      "productId": "{{productId}}",
+      "quantity": 1,
+      "unitPrice": 18500000
+    }
+  ]
+}

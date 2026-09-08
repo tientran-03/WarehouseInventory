@@ -1,0 +1,238 @@
+@import "tailwindcss";
+
+@theme {
+  --color-trust-950: #061525;
+  --color-trust-900: #0c2744;
+  --color-trust-800: #13406b;
+  --color-trust-700: #1a5490;
+  --color-trust-500: #2563eb;
+  --color-trust-400: #3b82f6;
+  --color-teal-500: #14b8a6;
+  --color-teal-400: #2dd4bf;
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  @apply antialiased text-slate-100 font-sans;
+  background: linear-gradient(135deg, #061525 0%, #0c2744 35%, #0f3d5c 65%, #0c4a6e 100%);
+  min-height: 100vh;
+}
+
+/* Ambient mesh background */
+.app-bg {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+@layer base {
+  body {
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    color: #334155; /* Màu chữ slate-700 nhẹ nhàng hơn đen tuyền */
+    font-weight: 400;
+  }
+
+  /* Làm cho các tiêu đề gọn gàng, thanh thoát, tránh bị thô dày */
+  h1, h2, h3, h4, h5, h6 {
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    color: #0f172a;
+  }
+}
+.app-bg::before {
+  content: "";
+  position: absolute;
+  width: 600px;
+  height: 600px;
+  top: -200px;
+  right: -100px;
+  background: radial-gradient(circle, rgba(37, 99, 235, 0.25) 0%, transparent 70%);
+  border-radius: 50%;
+  filter: blur(60px);
+}
+
+.app-bg::after {
+  content: "";
+  position: absolute;
+  width: 500px;
+  height: 500px;
+  bottom: -150px;
+  left: -100px;
+  background: radial-gradient(circle, rgba(20, 184, 166, 0.2) 0%, transparent 70%);
+  border-radius: 50%;
+  filter: blur(60px);
+}
+
+.app-bg-orb {
+  position: absolute;
+  width: 400px;
+  height: 400px;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(circle, rgba(59, 130, 246, 0.12) 0%, transparent 70%);
+  border-radius: 50%;
+  filter: blur(80px);
+}
+
+/* Glassmorphism utilities */
+.glass {
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+.glass-strong {
+  background: rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.25),
+    inset 0 1px 0 rgba(255, 255, 255, 0.15);
+}
+
+.glass-input {
+  background: rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  @apply rounded-xl px-4 py-2.5 text-sm text-white placeholder:text-slate-400 w-full transition-all duration-200;
+}
+
+.glass-input:focus {
+  outline: none;
+  border-color: rgba(45, 212, 191, 0.5);
+  box-shadow: 0 0 0 3px rgba(45, 212, 191, 0.15);
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.glass-btn {
+  @apply inline-flex items-center justify-center gap-2 rounded-xl px-5 py-2.5 text-sm font-semibold transition-all duration-200 cursor-pointer;
+  background: linear-gradient(135deg, #2563eb 0%, #14b8a6 100%);
+  color: white;
+  box-shadow: 0 4px 20px rgba(37, 99, 235, 0.35);
+}
+
+.glass-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 28px rgba(20, 184, 166, 0.4);
+  filter: brightness(1.08);
+}
+
+.glass-btn:active {
+  transform: translateY(0);
+}
+
+.glass-table thead {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.glass-table tbody tr {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  transition: background 0.15s ease;
+}
+
+.glass-table tbody tr:hover {
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.glass-table th {
+  @apply text-left px-6 py-3.5 text-xs font-semibold uppercase tracking-wider text-slate-400;
+}
+
+.glass-table td {
+  @apply px-6 py-3.5 text-sm text-slate-200;
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.04) 25%,
+    rgba(255, 255, 255, 0.1) 50%,
+    rgba(255, 255, 255, 0.04) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  @apply rounded-2xl h-32;
+}
+
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in-up {
+  animation: fade-in-up 0.4s ease-out forwards;
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.animate-fade-in {
+  animation: fade-in 0.2s ease-out forwards;
+}
+
+@keyframes pulse-glow {
+  0%, 100% { opacity: 0.6; }
+  50% { opacity: 1; }
+}
+
+.badge-success {
+  @apply inline-flex px-2.5 py-1 rounded-full text-xs font-semibold;
+  background: rgba(20, 184, 166, 0.2);
+  color: #5eead4;
+  border: 1px solid rgba(20, 184, 166, 0.3);
+}
+
+.badge-warning {
+  @apply inline-flex px-2.5 py-1 rounded-full text-xs font-semibold;
+  background: rgba(251, 191, 36, 0.15);
+  color: #fcd34d;
+  border: 1px solid rgba(251, 191, 36, 0.25);
+}
+
+.badge-neutral {
+  @apply inline-flex px-2.5 py-1 rounded-full text-xs font-semibold;
+  background: rgba(148, 163, 184, 0.15);
+  color: #94a3b8;
+  border: 1px solid rgba(148, 163, 184, 0.2);
+}
+
+.badge-trust {
+  @apply inline-flex px-2.5 py-1 rounded-full text-xs font-semibold;
+  background: rgba(59, 130, 246, 0.2);
+  color: #93c5fd;
+  border: 1px solid rgba(59, 130, 246, 0.3);
+}
+
+.text-accent {
+  @apply font-mono text-teal-400;
+}
