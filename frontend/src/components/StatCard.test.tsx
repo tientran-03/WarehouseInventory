@@ -1,16 +1,17 @@
+import { describe, it, expect } from 'vitest'
 import { render, screen } from '@testing-library/react'
-import { describe, expect, it } from 'vitest'
-import StatCard from '../components/StatCard'
+import StatCard from './StatCard'
 
 describe('StatCard', () => {
   it('renders title and value', () => {
-    render(<StatCard title="Warehouses" value={5} />)
-    expect(screen.getByText('Warehouses')).toBeInTheDocument()
-    expect(screen.getByText('5')).toBeInTheDocument()
+    render(<StatCard title="Test" value="100" />)
+    expect(screen.getByText('Test')).toBeInTheDocument()
+    expect(screen.getByText('100')).toBeInTheDocument()
   })
 
-  it('renders subtitle when provided', () => {
-    render(<StatCard title="Low Stock" value={2} subtitle="Needs attention" variant="warning" />)
-    expect(screen.getByText('Needs attention')).toBeInTheDocument()
+  it('renders icon when provided', () => {
+    const icon = <span data-testid="icon">Icon</span>
+    render(<StatCard title="Test" value="100" icon={icon} />)
+    expect(screen.getByTestId('icon')).toBeInTheDocument()
   })
 })
