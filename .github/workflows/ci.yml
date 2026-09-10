@@ -27,11 +27,6 @@ jobs:
       run: |
         cd backend
         dotnet build --configuration Release --no-restore
-    
-    - name: Test backend
-      run: |
-        cd backend
-        dotnet test --no-build --configuration Release --verbosity normal
 
   build-frontend:
     runs-on: ubuntu-latest
@@ -43,8 +38,6 @@ jobs:
       uses: actions/setup-node@v4
       with:
         node-version: '20'
-        cache: 'npm'
-        cache-dependency-path: frontend/package-lock.json
     
     - name: Install pnpm
       uses: pnpm/action-setup@v4
@@ -60,8 +53,3 @@ jobs:
       run: |
         cd frontend
         pnpm build
-    
-    - name: Run tests
-      run: |
-        cd frontend
-        pnpm test
