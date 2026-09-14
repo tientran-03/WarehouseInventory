@@ -1,16 +1,16 @@
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
 
-COPY ["MultiWarehouseInventory.sln", "./"]
-COPY ["MultiWarehouseInventory.API/MultiWarehouseInventory.API.csproj", "MultiWarehouseInventory.API/"]
-COPY ["MultiWarehouseInventory.Infrastructure/MultiWarehouseInventory.Infrastructure.csproj", "MultiWarehouseInventory.Infrastructure/"]
-COPY ["MultiWarehouseInventory.Application/MultiWarehouseInventory.Application.csproj", "MultiWarehouseInventory.Application/"]
-COPY ["MultiWarehouseInventory.Domain/MultiWarehouseInventory.Domain.csproj", "MultiWarehouseInventory.Domain/"]
+COPY ["backend/MultiWarehouseInventory.sln", "backend/"]
+COPY ["backend/MultiWarehouseInventory.API/MultiWarehouseInventory.API.csproj", "backend/MultiWarehouseInventory.API/"]
+COPY ["backend/MultiWarehouseInventory.Infrastructure/MultiWarehouseInventory.Infrastructure.csproj", "backend/MultiWarehouseInventory.Infrastructure/"]
+COPY ["backend/MultiWarehouseInventory.Application/MultiWarehouseInventory.Application.csproj", "backend/MultiWarehouseInventory.Application/"]
+COPY ["backend/MultiWarehouseInventory.Domain/MultiWarehouseInventory.Domain.csproj", "backend/MultiWarehouseInventory.Domain/"]
 
-RUN dotnet restore "MultiWarehouseInventory.sln"
+RUN dotnet restore "backend/MultiWarehouseInventory.sln"
 
-COPY . .
-WORKDIR /src/MultiWarehouseInventory.API
+COPY backend/ backend/
+WORKDIR /src/backend/MultiWarehouseInventory.API
 
 RUN dotnet publish -c Release -o /app/publish /p:UseAppHost=false
 
