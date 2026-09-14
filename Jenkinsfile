@@ -11,10 +11,9 @@ pipeline {
         stage('Build Backend') {
             steps {
                 dir('backend') {
-                    sh 'which dotnet || echo "dotnet not found in PATH"'
-                    sh 'dotnet --version || echo "dotnet version check failed"'
-                    sh 'dotnet restore'
-                    sh 'dotnet build --configuration Release'
+                    bat 'dotnet --version'
+                    bat 'dotnet restore'
+                    bat 'dotnet build --configuration Release'
                 }
             }
         }
