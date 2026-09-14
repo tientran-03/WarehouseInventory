@@ -9,15 +9,26 @@ pipeline {
         }
         
         stage('Build Backend') {
+            agent {
+                docker {
+                    image 'mcr.microsoft.com/dotnet/sdk:8.0'
+                    args '-u root'
+                }
+            }
             steps {
-                // Ép Docker lấy thư mục backend làm context để khớp hoàn toàn với các lệnh COPY trong Dockerfile
-                sh 'docker build -t mwi-api:latest -f docker/backend/Dockerfile ./backend'
+                dir('backend') {
+                    sh 'dotnet restore'
+                    sh 'dotnet build --configuration Release'
+                }
             }
         }
         
         stage('Archive Artifacts') {
+            agent any
             steps {
-                echo 'Build Docker image completed successfully!'
+                dir('backend/MultiWarehouseInventory.API/bin/Release/net8.0') {
+                    archiveArtifacts artifacts: '**/*.dll', fingerprint: true
+                }
             }
         }
     }
