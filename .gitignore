@@ -30,7 +30,6 @@ Thumbs.db
 # Test
 coverage/
 TestResults/
-**/*.Tests/
 
 # Docker
 postgres_data/
