@@ -9,13 +9,10 @@ pipeline {
         }
         
         stage('Build Backend') {
-            steps {
-                dir('backend') {
-                    sh 'dotnet --version'
-                    sh 'dotnet restore'
-                    sh 'dotnet build --configuration Release'
-                }
-            }
+    steps {
+        sh 'docker build -t mwi-api:latest -f docker/backend/Dockerfile .'
+    }
+}
         }
         
         stage('Archive Artifacts') {
