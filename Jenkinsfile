@@ -11,9 +11,9 @@ pipeline {
         stage('Build Backend') {
             steps {
                 dir('backend') {
-                    bat 'dotnet --version'
-                    bat 'dotnet restore'
-                    bat 'dotnet build --configuration Release'
+                    sh 'dotnet --version'
+                    sh 'dotnet restore'
+                    sh 'dotnet build --configuration Release'
                 }
             }
         }
