@@ -1,13 +1,16 @@
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
 
-# Tạo cấu trúc thư mục backend trong container rồi copy toàn bộ source code vào đó
+# Copy toàn bộ vào thư mục backend trong container
 COPY . /src/backend/
 
-# Chuyển vào thư mục backend để chạy restore và publish đúng với đường dẫn trong file .sln
 WORKDIR /src/backend
+
+# Restore solution
 RUN dotnet restore MultiWarehouseInventory.sln
-RUN dotnet publish MultiWarehouseInventory.API/MultiWarehouseInventory.API.csproj -c Release -o /app/publish /p:UseAppHost=false
+
+# Thêm 'backend/' vào trước đường dẫn publish vì đang đứng ở /src/backend mà cấu trúc bị lồng
+RUN dotnet publish backend/MultiWarehouseInventory.API/MultiWarehouseInventory.API.csproj -c Release -o /app/publish /p:UseAppHost=false
 
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS final
 WORKDIR /app
