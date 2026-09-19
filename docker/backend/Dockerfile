@@ -1,12 +1,15 @@
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
 
-# Copy toàn bộ source code từ thư mục gốc vào /src của container
-COPY . .
+# Tạo thư mục backend trong container và copy toàn bộ nội dung vào đó
+# Để cấu trúc bên trong container khớp hoàn toàn với đường dẫn trong file .sln
+COPY . /src/backend/
 
-# Trỏ đúng đường dẫn tới file .sln ở ngay thư mục gốc
+# Di chuyển vào thư mục backend để chạy lệnh restore và publish
+WORKDIR /src/backend
+
 RUN dotnet restore MultiWarehouseInventory.sln
-RUN dotnet publish backend/MultiWarehouseInventory.API/MultiWarehouseInventory.API.csproj -c Release -o /app/publish /p:UseAppHost=false
+RUN dotnet publish MultiWarehouseInventory.API/MultiWarehouseInventory.API.csproj -c Release -o /app/publish /p:UseAppHost=false
 
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS final
 WORKDIR /app
