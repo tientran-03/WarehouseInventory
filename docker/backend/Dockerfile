@@ -1,10 +1,11 @@
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
 
-# Copy toàn bộ thư mục gốc vào container
-COPY . .
+# Tạo cấu trúc thư mục backend trong container rồi copy toàn bộ source code vào đó
+COPY . /src/backend/
 
-# Vì file .sln nằm ở ngay thư mục gốc của context, ta restore trực tiếp luôn
+# Chuyển vào thư mục backend để chạy restore và publish đúng với đường dẫn trong file .sln
+WORKDIR /src/backend
 RUN dotnet restore MultiWarehouseInventory.sln
 RUN dotnet publish MultiWarehouseInventory.API/MultiWarehouseInventory.API.csproj -c Release -o /app/publish /p:UseAppHost=false
 
